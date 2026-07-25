@@ -7,6 +7,7 @@ class StudentRegister(BaseModel):
     enrollment_number: str
     password: str
     name: str
+    department: str
     branch: Optional[str] = None
     year: Optional[int] = None
 
@@ -15,6 +16,7 @@ class AdminRegister(BaseModel):
     enrollment_number: str
     password: str
     name: str
+    department: str
 
 class LoginRequest(BaseModel):
     # Could be email or enrollment number
@@ -25,6 +27,7 @@ class TaskCreate(BaseModel):
     title: str
     description: Optional[str] = None
     allow_attachments: bool = False
+    department: Optional[str] = None
 
 class SubmissionCreate(BaseModel):
     task_id: str

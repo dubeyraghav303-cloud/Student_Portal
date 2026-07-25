@@ -11,13 +11,14 @@ export default function StudentRegister() {
     name: "",
     email: "",
     enrollment_number: "",
+    department: "",
     branch: "",
     year: "",
     password: ""
   });
   const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({...formData, [e.target.name]: e.target.value});
   };
 
@@ -58,6 +59,17 @@ export default function StudentRegister() {
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Enrollment Number</label>
             <input type="text" name="enrollment_number" className="input-field" onChange={handleChange} required />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Department</label>
+            <select name="department" className="input-field" onChange={handleChange} required value={formData.department} style={{ appearance: 'auto', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
+              <option value="" disabled>Select Department</option>
+              <option value="Technical department">Technical department</option>
+              <option value="Media and content writing department">Media and content writing department</option>
+              <option value="Operations and Management Department">Operations and Management Department</option>
+              <option value="PR and Outreach Department">PR and Outreach Department</option>
+              <option value="Graphic Design Department">Graphic Design Department</option>
+            </select>
           </div>
           <div style={{ display: 'flex', gap: '1rem' }}>
             <div style={{ flex: 1 }}>

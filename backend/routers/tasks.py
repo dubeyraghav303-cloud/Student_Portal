@@ -11,6 +11,7 @@ async def create_task(task: TaskCreate, admin=Depends(get_current_admin)):
         "title": task.title,
         "description": task.description,
         "allow_attachments": task.allow_attachments,
+        "department": admin.get("department", ""),
         "created_by": admin["sub"]
     }
     res = supabase.table("tasks").insert(new_task).execute()
@@ -18,7 +19,8 @@ async def create_task(task: TaskCreate, admin=Depends(get_current_admin)):
 
 @router.get("/")
 async def get_all_tasks(user=Depends(get_current_user)):
-    res = supabase.table("tasks").select("*").order('created_at', desc=True).execute()
+    user_dept = user.get("department", "")
+    res = supabase.table("tasks").select("*").eq("department", user_dept).order('created_at', desc=True).execute()
     return res.data
 
 @router.delete("/{task_id}")

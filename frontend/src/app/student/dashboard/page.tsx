@@ -73,8 +73,8 @@ export default function StudentDashboard() {
   if (loading) return <SkeletonDashboard />;
 
   return (
-    <div style={{ minHeight: "100vh", padding: "2rem" }}>
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3rem" }}>
+    <div className="responsive-padding" style={{ minHeight: "100vh", padding: "2rem" }}>
+      <header className="responsive-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3rem" }}>
         <motion.h1 
           initial={{ opacity: 0, x: -20 }} 
           animate={{ opacity: 1, x: 0 }}
@@ -92,7 +92,8 @@ export default function StudentDashboard() {
         </div>
       </header>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+      {/* Main Grid */}
+      <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
         {/* Left Column: Tasks */}
         <motion.section 
           initial={{ opacity: 0, y: 20 }} 

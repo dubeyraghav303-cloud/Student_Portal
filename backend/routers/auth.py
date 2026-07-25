@@ -23,6 +23,7 @@ async def register_student(student: StudentRegister):
         "enrollment_number": student.enrollment_number,
         "password_hash": hashed_pw,
         "name": student.name,
+        "department": student.department,
         "branch": student.branch,
         "year": student.year
     }
@@ -45,8 +46,8 @@ async def login_student(req: LoginRequest):
     if not verify_password(req.password, user["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
         
-    access_token = create_access_token(data={"sub": user["id"], "role": "student"})
-    return {"access_token": access_token, "token_type": "bearer", "user": {"id": user["id"], "name": user["name"], "role": "student"}}
+    access_token = create_access_token(data={"sub": user["id"], "role": "student", "department": user["department"]})
+    return {"access_token": access_token, "token_type": "bearer", "user": {"id": user["id"], "name": user["name"], "role": "student", "department": user["department"]}}
 
 import os
 
@@ -67,6 +68,7 @@ async def register_admin(admin: AdminRegister, registration_secret: str):
         "enrollment_number": admin.enrollment_number,
         "password_hash": hashed_pw,
         "name": admin.name,
+        "department": admin.department,
     }
     
     data = supabase.table("admins").insert(new_admin).execute()
@@ -86,8 +88,8 @@ async def login_admin(req: LoginRequest):
     if not verify_password(req.password, user["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid admin credentials")
         
-    access_token = create_access_token(data={"sub": user["id"], "role": "admin"})
-    return {"access_token": access_token, "token_type": "bearer", "user": {"id": user["id"], "name": user["name"], "role": "admin"}}
+    access_token = create_access_token(data={"sub": user["id"], "role": "admin", "department": user["department"]})
+    return {"access_token": access_token, "token_type": "bearer", "user": {"id": user["id"], "name": user["name"], "role": "admin", "department": user["department"]}}
 
 @router.post("/change-password")
 async def change_password(req: ChangePasswordRequest, user=Depends(get_current_user)):

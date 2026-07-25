@@ -94,6 +94,17 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteStudent = async (studentId: string) => {
+    if(!confirm("Are you sure you want to remove this student? This action cannot be undone.")) return;
+    try {
+      await api.delete(`/students/${studentId}`);
+      if(selectedStudentId === studentId) setSelectedStudentId(null);
+      fetchData();
+    } catch (err: any) {
+      alert(err.response?.data?.detail || "Failed to remove student");
+    }
+  };
+
   const fetchSubmissionsForTask = async (taskId: string) => {
     try {
       const res = await api.get(`/submissions/task/${taskId}`);
@@ -117,8 +128,8 @@ export default function AdminDashboard() {
   if (loading) return <SkeletonDashboard />;
 
   return (
-    <div style={{ minHeight: "100vh", padding: "2rem", background: "var(--background)" }}>
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3rem" }}>
+    <div className="responsive-padding" style={{ minHeight: "100vh", padding: "2rem", background: "var(--background)" }}>
+      <header className="responsive-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3rem" }}>
         <motion.h1 
           initial={{ opacity: 0, x: -20 }} 
           animate={{ opacity: 1, x: 0 }}
@@ -149,7 +160,7 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+      <div className="responsive-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
         {/* Left Column: List based on mode */}
         <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
           
@@ -203,8 +214,18 @@ export default function AdminDashboard() {
                     transition={{ delay: 0.05 * i }}
                     onClick={() => fetchSubmissionsForStudent(student.id)}
                   >
-                    <h4 style={{ margin: "0 0 0.25rem 0", color: "var(--accent)", fontSize: "1.1rem" }}>{student.name} ({student.enrollment_number})</h4>
-                    <p style={{ margin: 0, color: "var(--foreground)", opacity: 0.7, fontSize: "0.9rem" }}>{student.email} • {student.branch || "N/A"} • Year: {student.year || "N/A"}</p>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                      <div>
+                        <h4 style={{ margin: "0 0 0.25rem 0", color: "var(--accent)", fontSize: "1.1rem" }}>{student.name} ({student.enrollment_number})</h4>
+                        <p style={{ margin: 0, color: "var(--foreground)", opacity: 0.7, fontSize: "0.9rem" }}>{student.email} • {student.branch || "N/A"} • Year: {student.year || "N/A"}</p>
+                      </div>
+                      <button 
+                        style={{ background: "transparent", border: "1px solid var(--error)", color: "var(--error)", cursor: "pointer", fontSize: "0.8rem", padding: "4px 8px", borderRadius: "4px" }}
+                        onClick={(e) => { e.stopPropagation(); handleDeleteStudent(student.id); }}
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </motion.div>
                 ))}
               </div>

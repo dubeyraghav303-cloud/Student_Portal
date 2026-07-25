@@ -102,3 +102,27 @@ h2 { font-size: 2.25rem; }
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 1.75rem; }
+  
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .responsive-padding {
+    padding: 1rem !important;
+  }
+  
+  .responsive-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+}
