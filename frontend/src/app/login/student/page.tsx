@@ -4,15 +4,18 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
+import { InterstitialLoader } from "@/components/InterstitialLoader";
 
 export default function StudentLogin() {
   const router = useRouter();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await api.post('/auth/login/student', { identifier, password });
       localStorage.setItem('access_token', res.data.access_token);
@@ -20,11 +23,14 @@ export default function StudentLogin() {
       router.push('/student/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.detail || "Invalid credentials");
+      setIsLoading(false);
     }
   };
 
   return (
-    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <>
+      {isLoading && <InterstitialLoader />}
+      <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <motion.div 
         className="glass-panel"
         style={{ padding: '3rem', width: '100%', maxWidth: '400px' }}
@@ -78,5 +84,6 @@ export default function StudentLogin() {
         </div>
       </motion.div>
     </main>
+    </>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
+import { InterstitialLoader } from "@/components/InterstitialLoader";
 
 export default function StudentRegister() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function StudentRegister() {
     password: ""
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({...formData, [e.target.name]: e.target.value});
@@ -24,6 +26,7 @@ export default function StudentRegister() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await api.post('/auth/register/student', {
         ...formData,
@@ -32,11 +35,14 @@ export default function StudentRegister() {
       router.push('/login/student');
     } catch (err: any) {
       setError(err.response?.data?.detail || "Registration failed");
+      setIsLoading(false);
     }
   };
 
   return (
-    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+    <>
+      {isLoading && <InterstitialLoader />}
+      <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
       <motion.div 
         className="glass-panel"
         style={{ padding: '3rem', width: '100%', maxWidth: '500px' }}
@@ -102,5 +108,6 @@ export default function StudentRegister() {
         </div>
       </motion.div>
     </main>
+    </>
   );
 }

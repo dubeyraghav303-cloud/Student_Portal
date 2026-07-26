@@ -3,12 +3,13 @@
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import ThreeBackground from "@/components/ThreeBackground";
+import { StartupAnimation } from "@/components/StartupAnimation";
 
 export default function Home() {
   const router = useRouter();
 
   return (
-    <>
+    <StartupAnimation>
       <ThreeBackground />
       <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <motion.div
@@ -55,6 +56,6 @@ export default function Home() {
           </motion.div>
         </motion.div>
       </main>
-    </>
+    </StartupAnimation>
   );
 }
