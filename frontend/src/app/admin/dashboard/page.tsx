@@ -258,9 +258,9 @@ export default function AdminDashboard() {
                       transition={{ delay: 0.1 * i }}
                     >
                       <h4 style={{ margin: "0 0 0.5rem 0", color: "var(--accent)" }}>
-                        {selectedTaskId ? `Student: ${sub.student_name}` : `Task ID: ${sub.task_id}`}
+                        {selectedTaskId ? `Student: ${sub.student_name}` : `Task: ${tasks.find(t => t.id === sub.task_id)?.title || "Unknown Task"}`}
                       </h4>
-                      <p style={{ margin: "0 0 0.5rem 0", color: "var(--foreground)", opacity: 0.9, fontSize: "0.95rem" }}>{sub.submission_content}</p>
+                      <p style={{ margin: "0 0 0.5rem 0", color: "var(--foreground)", opacity: 0.9, fontSize: "0.95rem", whiteSpace: "pre-wrap" }}>{sub.submission_content}</p>
                       
                       {sub.file_url && (
                         <div style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>

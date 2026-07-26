@@ -168,7 +168,7 @@ export default function StudentDashboard() {
                       transition={{ delay: 0.1 * i }}
                     >
                       <h4 style={{ margin: "0 0 0.25rem 0", color: "var(--accent)" }}>{taskObj?.title || "Unknown Task"}</h4>
-                      <p style={{ margin: "0 0 0.5rem 0", color: "var(--foreground)", opacity: 0.8, fontSize: "0.9rem" }}>{sub.submission_content}</p>
+                      <p style={{ margin: "0 0 0.5rem 0", color: "var(--foreground)", opacity: 0.8, fontSize: "0.9rem", whiteSpace: "pre-wrap" }}>{sub.submission_content}</p>
                       <small style={{ color: "var(--primary)" }}>{new Date(sub.submitted_at).toLocaleDateString()}</small>
                     </motion.li>
                   );
